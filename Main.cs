@@ -1,5 +1,6 @@
 ﻿using Kompas6API5;
 using KompasAPI7;
+using Kompas6Constants;
 using Microsoft.Win32;
 using Selection.Windows;
 using System;
@@ -41,6 +42,14 @@ namespace Selection
                     break;
                 case 2:
                     result = "Разрушить макроэлементы";
+                    command = 1;
+                    break;
+                case 3:
+                    result = "Выбрать по типу линии";
+                    command = 1;
+                    break;
+                case 4:
+                    result = "Закрыть не сохраняясь";
                     command = 1;
                     break;
             }
@@ -107,17 +116,32 @@ namespace Selection
             IStylesManager stylesManager = (IStylesManager)application;
             IStyles styles = stylesManager.CurvesStyles;
             W.CurvesStyle curveStyle = new W.CurvesStyle();
-            foreach (IStyle item in styles)
+            string[] selected_lb = new string[styles.Count + 1];
+            selected_lb[0] = "Выбрать всё";
+            for (int i = 1; i < selected_lb.Length; i++)
             {
-                curveStyle.lb_CurvesStyle.Items.Add(item.Name);
+                selected_lb[i] = styles[i - 1].Name;
             }
+            curveStyle.lb_CurvesStyle.Items.AddRange(selected_lb);
+            curveStyle.lb_CurvesStyle.SetSelected(0, true);
             var result = curveStyle.ShowDialog();
-            int[] selectedType = new int[curveStyle.lb_CurvesStyle.SelectedIndices.Count];
-            for (int i = 0; i < selectedType.Length; i++)
+            int[] selectedType;
+            if (curveStyle.lb_CurvesStyle.SelectedIndices[0] == 0)
             {
-                selectedType[i] = curveStyle.lb_CurvesStyle.SelectedIndices[i] + 1;
+                selectedType = new int[selected_lb.Length];
+                for (int i = 0; i < selected_lb.Length; i++)
+                {
+                    selectedType[i] = i;
+                }
             }
-
+            else
+            {
+                selectedType = new int[curveStyle.lb_CurvesStyle.SelectedIndices.Count];
+                for (int i = 0; i < selectedType.Length; i++)
+                {
+                    selectedType[i] = curveStyle.lb_CurvesStyle.SelectedIndices[i];
+                }
+            }
             if (result == DialogResult.OK)
             {
                 Select(selectedType);
@@ -398,6 +422,14 @@ namespace Selection
 
         }
 
+        /// <summary>
+        /// Закрыть документ не сохраняясь
+        /// </summary>
+        private void CloseNoSave()
+        {
+            activeDocument.Close(DocumentCloseOptions.kdDoNotSaveChanges);
+        }
+
         // Головная функция библиотеки
         public void ExternalRunCommand([In] short command, [In] short mode, [In, MarshalAs(UnmanagedType.IDispatch)] object kompas_)
         {
@@ -410,6 +442,7 @@ namespace Selection
                 case 1: Select(new int[] {1}); break; //Выбор линии с типом "Основная"
                 case 2: DestroyMacroElements(); break;
                 case 3: SelecetType(); break;
+                case 4: CloseNoSave(); break;
             }
         }
 

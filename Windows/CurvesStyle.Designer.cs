@@ -36,7 +36,7 @@
             // lb_CurvesStyle
             // 
             this.lb_CurvesStyle.FormattingEnabled = true;
-            this.lb_CurvesStyle.Location = new System.Drawing.Point(120, 51);
+            this.lb_CurvesStyle.Location = new System.Drawing.Point(12, 12);
             this.lb_CurvesStyle.Name = "lb_CurvesStyle";
             this.lb_CurvesStyle.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lb_CurvesStyle.Size = new System.Drawing.Size(247, 108);
@@ -45,7 +45,7 @@
             // b_OK
             // 
             this.b_OK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.b_OK.Location = new System.Drawing.Point(155, 190);
+            this.b_OK.Location = new System.Drawing.Point(44, 126);
             this.b_OK.Name = "b_OK";
             this.b_OK.Size = new System.Drawing.Size(75, 23);
             this.b_OK.TabIndex = 1;
@@ -55,7 +55,7 @@
             // b_Cancel
             // 
             this.b_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.b_Cancel.Location = new System.Drawing.Point(255, 190);
+            this.b_Cancel.Location = new System.Drawing.Point(144, 126);
             this.b_Cancel.Name = "b_Cancel";
             this.b_Cancel.Size = new System.Drawing.Size(75, 23);
             this.b_Cancel.TabIndex = 2;
@@ -68,7 +68,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.b_Cancel;
-            this.ClientSize = new System.Drawing.Size(477, 259);
+            this.ClientSize = new System.Drawing.Size(276, 157);
             this.Controls.Add(this.b_Cancel);
             this.Controls.Add(this.b_OK);
             this.Controls.Add(this.lb_CurvesStyle);
