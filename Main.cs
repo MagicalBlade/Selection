@@ -52,6 +52,10 @@ namespace Selection
                     result = "Закрыть не сохраняясь";
                     command = 1;
                     break;
+                case 5:
+                    result = "Разрыв вида";
+                    command = 1;
+                    break;
             }
             return result;
         }
@@ -429,6 +433,27 @@ namespace Selection
         {
             activeDocument.Close(DocumentCloseOptions.kdDoNotSaveChanges);
         }
+        private void BreakView()
+        {
+            IKompasDocument2D kompasDocument2D = (IKompasDocument2D)application.ActiveDocument;
+            IViewsAndLayersManager viewsAndLayersManager = kompasDocument2D.ViewsAndLayersManager;
+            IViews views = viewsAndLayersManager.Views;
+            IView view = views.ActiveView;
+            IBreakViewParam breakViewParam = (IBreakViewParam)view;
+            if (breakViewParam.BreaksCount == 0)
+            {
+                return;
+            }
+            if (breakViewParam.BreaksVisible == false)
+            {
+                breakViewParam.BreaksVisible = true;
+            }
+            else
+            {
+                breakViewParam.BreaksVisible = false;
+            }
+            view.Update();
+        }
 
         // Головная функция библиотеки
         public void ExternalRunCommand([In] short command, [In] short mode, [In, MarshalAs(UnmanagedType.IDispatch)] object kompas_)
@@ -443,6 +468,7 @@ namespace Selection
                 case 2: DestroyMacroElements(); break;
                 case 3: SelecetType(); break;
                 case 4: CloseNoSave(); break;
+                case 5: BreakView(); break;
             }
         }
 
