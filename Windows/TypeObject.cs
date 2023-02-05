@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Selection.Windows
 {
-    public partial class CurvesStyle : Form
+    public partial class TypeObject : Form
     {
-        public CurvesStyle()
+        public TypeObject()
         {
             InitializeComponent();
         }
