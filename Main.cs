@@ -444,6 +444,8 @@ namespace Selection
             List<object> kompasObjects = new List<object>();
             Dictionary<string, List<object>> objectDictionary = new Dictionary<string, List<object>>() 
             {
+                { "Геометрия",  new List<object>()},
+                { "Оформление",  new List<object>()},
                 { "Дуги",  new List<object>()},
                 { "Кривые Безье",  new List<object>()},
                 { "Окружности",  new List<object>()},
@@ -503,6 +505,7 @@ namespace Selection
                 { "Номера узлов",  new List<object>()}
             };
             IKompasDocument2D kompasDocument2D = (IKompasDocument2D)application.ActiveDocument;
+            ksDocument2D activeDocumentAPI5 = kompas.ActiveDocument2D();
             IKompasDocument2D1 kompasDocument2D1 = (IKompasDocument2D1)kompasDocument2D;
             ISelectionManager selectionManager = kompasDocument2D1.SelectionManager;
             dynamic selected = selectionManager.SelectedObjects;
@@ -514,183 +517,238 @@ namespace Selection
                     {
                         case DrawingObjectTypeEnum.ksDrLineSeg:
                             objectDictionary["Отрезки"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrCircle:
                             objectDictionary["Окружности"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrArc:
                             objectDictionary["Дуги"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrDrawText:
                             objectDictionary["Текст"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrPoint:
                             objectDictionary["Точки"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrHatch:
                             objectDictionary["Штриховки"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrBezier:
                             objectDictionary["Кривые Безье"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrLDimension:
                             objectDictionary["Линейные размеры"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrADimension:
                             objectDictionary["Угловые размеры"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrDDimension:
                             objectDictionary["Диаметральные размеры"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrRDimension:
                             objectDictionary["Радиальные размеры"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrRBreakDimension:
                             objectDictionary["Радиальные размеры с изломом"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrRough:
                             objectDictionary["Обозначения шероховатости"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrBase:
                             objectDictionary["Обозначение базы"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrWPointer:
                             objectDictionary["Стрелки взгляда"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrCut:
                             objectDictionary["Линии разреза/сечения"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrLeader:
                             objectDictionary["Линии-выноски"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrTolerance:
                             objectDictionary["Допуски формы"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrTable:
                             objectDictionary["Таблицы"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrContour:
                             objectDictionary["Контуры"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrMacro:
                             objectDictionary["Макроэлементы"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrLine:
                             objectDictionary["Прямые"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrPolyline:
                             objectDictionary["2D ломанные"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrEllipse:
                             objectDictionary["Элипсы"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrNurbs:
                             objectDictionary["Nurbs сплайны"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrEllipseArc:
                             objectDictionary["Дуги элипсов"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrRectangle:
                             objectDictionary["Прямоугольники"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrRegularPolygon:
                             objectDictionary["Многоугольники"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrEquid:
                             objectDictionary["Эквидистанты"].Add(item); 
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrLBreakDimension:
                             objectDictionary["Линейные размеры с обрывом"].Add(item); 
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrOrdinateDimension:
                             objectDictionary["Размеры высоты"].Add(item); 
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrColorFill:
                             objectDictionary["Заливки"].Add(item); 
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrCentreMarker:
                             objectDictionary["Обозначения центра"].Add(item); 
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrArcDimension:
                             objectDictionary["Размеры дуг окружностей"].Add(item); 
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrRaster:
                             objectDictionary["Растровые объекты"].Add(item); 
                             break;
                         case DrawingObjectTypeEnum.ksDrRemoteElement:
                             objectDictionary["Выносные элементы"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrAxisLine:
                             objectDictionary["Осевые линии"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrOLEObject:
                             objectDictionary["OLE объекты"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrUnitNumber:
                             objectDictionary["Номера узлов"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrBrace:
                             objectDictionary["Фигурные скобки"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrMarkOnLeader:
                             objectDictionary["Марки"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrMarkOnLine:
                             objectDictionary["Марки"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrMarkInsideForm:
                             objectDictionary["Марки"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrWaveLine:
                             objectDictionary["Волнистые линии"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrStraightAxis:
                             objectDictionary["Прямые строительные оси"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrBrokenLine:
                             objectDictionary["Линии обрыва с изломом"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrCircleAxis:
                             objectDictionary["Круговые строительные оси"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrArcAxis:
                             objectDictionary["Дуговые строительные оси"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrCutUnitMarking:
                             objectDictionary["Обозначения узла в сечении"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrUnitMarking:
                             objectDictionary["Обозначения узлов"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrMultiTextLeader:
                             objectDictionary["Выносные надписи к многослойным конструкциям"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrExternalView:
                             objectDictionary["Фрагменты видов другого чертежа"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrMultiLine:
                             objectDictionary["Мультилинии"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrBuildingCutLine:
                             objectDictionary["Линии разреза СПДС"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrConditionCrossing:
                             objectDictionary["Условные пересечения"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksReportTable:
                             objectDictionary["Ассоциативные таблицы отчетов"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrNurbsByPoints:
                             objectDictionary["Nurbs сплайны"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrConicCurve:
                             objectDictionary["Конические кривые"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrCircularCentres:
                             objectDictionary["Круговые сетки центров"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrLinearCentres:
                             objectDictionary["Линейные сетки центров"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         default:
                             break;
@@ -703,53 +761,63 @@ namespace Selection
                 IViews views = viewsAndLayersManager.Views;
                 IView view = views.ActiveView;
                 IDrawingContainer drawingContainer = (IDrawingContainer)view;
-                ISymbols2DContainer symbols2DContainer = (ISymbols2DContainer)view;
 
                 #region Заполняем словарь коллекциями элементов
                 /// IDrawingContainer
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrArc] != null)
                 {
                     objectDictionary["Дуги"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrArc]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrArc]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBezier] != null)
                 {
                     objectDictionary["Кривые Безье"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBezier]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBezier]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCircle] != null)
                 {
                     objectDictionary["Окружности"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCircle]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCircle]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrColorFill] != null)
                 {
                     objectDictionary["Заливки"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrColorFill]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrColorFill]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrConicCurve] != null)
                 {
                     objectDictionary["Конические кривые"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrConicCurve]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrConicCurve]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrContour] != null)
                 {
                     objectDictionary["Контуры"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrContour]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrContour]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrDrawText] != null)
                 {
                     objectDictionary["Текст"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrDrawText]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrDrawText]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrEllipse] != null)
                 {
                     objectDictionary["Элипсы"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrEllipse]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrEllipse]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrEllipseArc] != null)
                 {
                     objectDictionary["Дуги элипсов"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrEllipseArc]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrEllipseArc]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrEquid] != null)
                 {
                     objectDictionary["Эквидистанты"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrEquid]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrEquid]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrHatch] != null)
                 {
                     objectDictionary["Штриховки"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrHatch]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrHatch]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrExternalView] != null)
                 {
@@ -758,10 +826,12 @@ namespace Selection
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLine] != null)
                 {
                     objectDictionary["Прямые"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLine]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLine]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLineSeg] != null)
                 {
                     objectDictionary["Отрезки"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLineSeg]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLineSeg]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMacro] != null)
                 {
@@ -770,14 +840,17 @@ namespace Selection
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMultiLine] != null)
                 {
                     objectDictionary["Мультилинии"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMultiLine]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMultiLine]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrNurbs] != null)
                 {
                     objectDictionary["Nurbs сплайны"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrNurbs]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrNurbs]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrNurbsByPoints] != null)
                 {
                     objectDictionary["Nurbs сплайны"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrNurbsByPoints]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrNurbsByPoints]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrOLEObject] != null)
                 {
@@ -786,10 +859,12 @@ namespace Selection
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrPoint] != null)
                 {
                     objectDictionary["Точки"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrPoint]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrPoint]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrPolyline] != null)
                 {
                     objectDictionary["2D ломанные"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrPolyline]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrPolyline]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRaster] != null)
                 {
@@ -798,156 +873,194 @@ namespace Selection
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRectangle] != null)
                 {
                     objectDictionary["Прямоугольники"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRectangle]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRectangle]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRegularPolygon] != null)
                 {
                     objectDictionary["Многоугольники"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRegularPolygon]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRegularPolygon]);
                 }
                 //ISymbols2DContainer
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrADimension] != null)
                 {
                     objectDictionary["Угловые размеры"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrADimension]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrADimension]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrArcDimension] != null)
                 {
                     objectDictionary["Размеры дуг окружностей"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrArcDimension]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrArcDimension]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksReportTable] != null)
                 {
                     objectDictionary["Ассоциативные таблицы отчетов"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksReportTable]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksReportTable]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrAxisLine] != null)
                 {
                     objectDictionary["Осевые линии"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrAxisLine]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrAxisLine]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBase] != null)
                 {
                     objectDictionary["Обозначение базы"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBase]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBase]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLBreakDimension] != null)
                 {
                     objectDictionary["Линейные размеры с обрывом"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLBreakDimension]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLBreakDimension]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRBreakDimension] != null)
                 {
                     objectDictionary["Радиальные размеры с изломом"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRBreakDimension]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRBreakDimension]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBrokenLine] != null)
                 {
                     objectDictionary["Линии обрыва с изломом"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBrokenLine]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBrokenLine]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCentreMarker] != null)
                 {
                     objectDictionary["Обозначения центра"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCentreMarker]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCentreMarker]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCircularCentres] != null)
                 {
                     objectDictionary["Круговые сетки центров"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCircularCentres]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCircularCentres]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrConditionCrossing] != null)
                 {
                     objectDictionary["Условные пересечения"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrConditionCrossing]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrConditionCrossing]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCut] != null)
                 {
                     objectDictionary["Линии разреза/сечения"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCut]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCut]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrDDimension] != null)
                 {
                     objectDictionary["Диаметральные размеры"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrDDimension]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrDDimension]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrTable] != null)
                 {
                     objectDictionary["Таблицы"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrTable]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrTable]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrOrdinateDimension] != null)
                 {
                     objectDictionary["Размеры высоты"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrOrdinateDimension]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrOrdinateDimension]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLeader] != null)
                 {
                     objectDictionary["Линии-выноски"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLeader]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLeader]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLDimension] != null)
                 {
                     objectDictionary["Линейные размеры"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLDimension]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLDimension]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLinearCentres] != null)
                 {
                     objectDictionary["Линейные сетки центров"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLinearCentres]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLinearCentres]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRDimension] != null)
                 {
                     objectDictionary["Радиальные размеры"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRDimension]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRDimension]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRemoteElement] != null)
                 {
                     objectDictionary["Выносные элементы"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRemoteElement]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRemoteElement]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRough] != null)
                 {
                     objectDictionary["Обозначения шероховатости"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRough]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRough]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrTolerance] != null)
                 {
                     objectDictionary["Допуски формы"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrTolerance]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrTolerance]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrWPointer] != null)
                 {
                     objectDictionary["Стрелки взгляда"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrWPointer]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrWPointer]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrWaveLine] != null)
                 {
                     objectDictionary["Волнистые линии"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrWaveLine]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrWaveLine]);
                 }
                 //IBuildingContainer
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBrace] != null)
                 {
                     objectDictionary["Фигурные скобки"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBrace]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBrace]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrStraightAxis] != null)
                 {
                     objectDictionary["Прямые строительные оси"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrStraightAxis]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrStraightAxis]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCircleAxis] != null)
                 {
                     objectDictionary["Круговые строительные оси"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCircleAxis]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCircleAxis]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrArcAxis] != null)
                 {
                     objectDictionary["Дуговые строительные оси"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrArcAxis]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrArcAxis]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBuildingCutLine] != null)
                 {
                     objectDictionary["Линии разреза СПДС"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBuildingCutLine]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBuildingCutLine]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCutUnitMarking] != null)
                 {
                     objectDictionary["Обозначения узла в сечении"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCutUnitMarking]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCutUnitMarking]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkOnLeader] != null)
                 {
                     objectDictionary["Марки"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkOnLeader]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkOnLeader]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkOnLine] != null)
                 {
                     objectDictionary["Марки"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkOnLine]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkOnLine]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkInsideForm] != null)
                 {
                     objectDictionary["Марки"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkInsideForm]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkInsideForm]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMultiTextLeader] != null)
                 {
                     objectDictionary["Выносные надписи к многослойным конструкциям"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMultiTextLeader]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMultiTextLeader]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrUnitMarking] != null)
                 {
                     objectDictionary["Обозначения узлов"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrUnitMarking]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrUnitMarking]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrUnitNumber] != null)
                 {
                     objectDictionary["Номера узлов"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrUnitNumber]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrUnitNumber]);
                 }
                 #endregion
 
@@ -966,15 +1079,20 @@ namespace Selection
             }
             typeObject.lb_Type.SetSelected(0, true);
             var result = typeObject.ShowDialog();
+
             if (result == DialogResult.Cancel)
             {
                 return;
             }
+
+            activeDocumentAPI5.ksUndoContainer(true);
             selectionManager.UnselectAll();
             foreach (var item in typeObject.lb_Type.SelectedItems)
             {
                 selectionManager.Select(objectDictionary[item.ToString()].ToArray());
             }
+            activeDocumentAPI5.ksUndoContainer(false);
+
 
         }
         /// <summary>
