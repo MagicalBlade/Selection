@@ -55,14 +55,6 @@ namespace Selection
                     command = 1;
                     break;
                 case 5:
-                    result = "Закрыть не сохраняясь";
-                    command = 1;
-                    break;
-                case 6:
-                    result = "Test";
-                    command = 1;
-                    break;
-                case 7:
                     command = -1;
                     itemType = 8; // "ENDMENU"
                     break;
@@ -485,6 +477,10 @@ namespace Selection
                 { "Таблицы",  new List<object>()},
                 { "Размеры высоты",  new List<object>()},
                 { "Линии-выноски",  new List<object>()},
+                { "Линия-выноска для обозначения позиции",  new List<object>()},
+                { "Линия-выноска для для обозначения клеймения",  new List<object>()},
+                { "Линия-выноска для обозначения маркирования",  new List<object>()},
+                { "Знак изменения",  new List<object>()},
                 { "Линейные размеры",  new List<object>()},
                 { "Линейные сетки центров",  new List<object>()},
                 { "Радиальные размеры",  new List<object>()},
@@ -581,6 +577,22 @@ namespace Selection
                             break;
                         case DrawingObjectTypeEnum.ksDrLeader:
                             objectDictionary["Линии-выноски"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
+                            break;
+                        case DrawingObjectTypeEnum.ksDrPosLeader:
+                            objectDictionary["Линия-выноска для обозначения позиции"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
+                            break;
+                        case DrawingObjectTypeEnum.ksDrBrandLeader:
+                            objectDictionary["Линия-выноска для для обозначения клеймения"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
+                            break;
+                        case DrawingObjectTypeEnum.ksDrMarkerLeader:
+                            objectDictionary["Линия-выноска для обозначения маркирования"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
+                            break;
+                        case DrawingObjectTypeEnum.ksDrChangeLeader:
+                            objectDictionary["Знак изменения"].Add(item);
                             objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrTolerance:
@@ -961,6 +973,26 @@ namespace Selection
                     objectDictionary["Линии-выноски"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLeader]);
                     objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLeader]);
                 }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrPosLeader] != null)
+                {
+                    objectDictionary["Линия-выноска для обозначения позиции"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrPosLeader]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrPosLeader]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBrandLeader] != null)
+                {
+                    objectDictionary["Линия-выноска для для обозначения клеймения"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBrandLeader]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBrandLeader]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkerLeader] != null)
+                {
+                    objectDictionary["Линия-выноска для обозначения маркирования"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkerLeader]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkerLeader]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrChangeLeader] != null)
+                {
+                    objectDictionary["Знак изменения"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrChangeLeader]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrChangeLeader]);
+                }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLDimension] != null)
                 {
                     objectDictionary["Линейные размеры"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLDimension]);
@@ -1092,20 +1124,6 @@ namespace Selection
                 selectionManager.Select(objectDictionary[item.ToString()].ToArray());
             }
             activeDocumentAPI5.ksUndoContainer(false);
-
-
-        }
-        /// <summary>
-        /// Закрыть документ не сохраняясь
-        /// </summary>
-        private void CloseNoSave()
-        {
-            activeDocument.Close(DocumentCloseOptions.kdDoNotSaveChanges);
-        }
-
-        public void Test()
-        {
-            application.ExecuteKompasCommand(10165, false);
         }
 
         // Головная функция библиотеки
@@ -1121,8 +1139,6 @@ namespace Selection
                 case 2: DestroyMacroElements(); break;
                 case 3: SelecetTypeLine(); break;
                 case 4: SelectTypeObject(); break;
-                case 5: CloseNoSave(); break;
-                case 6: Test(); break;
             }
         }
         /*
