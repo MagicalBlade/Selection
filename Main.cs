@@ -154,7 +154,6 @@ namespace Selection
             }
         }
 
-        #endregion
         /// <summary>
         /// Выбор лини по указаному типу
         /// </summary>
@@ -163,7 +162,7 @@ namespace Selection
         {
             List<IDrawingObject> selectobjects = new List<IDrawingObject>();
             IKompasDocument2D1 kompasDocument2D1 = (IKompasDocument2D1)activeDocument;
-
+            ksDocument2D ksDocument2D = kompas.ActiveDocument2D();
             ISelectionManager selectionManager = kompasDocument2D1.SelectionManager;
             dynamic selectdynamic = selectionManager.SelectedObjects;
             if (selectdynamic is object[])
@@ -422,10 +421,11 @@ namespace Selection
             }
 
             #endregion
+            ksDocument2D.ksUndoContainer(true);
 
             selectionManager.Select(selectobjects.ToArray());
 
-
+            ksDocument2D.ksUndoContainer(false);
         }
 
         /// <summary>
@@ -1125,6 +1125,7 @@ namespace Selection
             }
             activeDocumentAPI5.ksUndoContainer(false);
         }
+        #endregion
 
         // Головная функция библиотеки
         public void ExternalRunCommand([In] short command, [In] short mode, [In, MarshalAs(UnmanagedType.IDispatch)] object kompas_)
