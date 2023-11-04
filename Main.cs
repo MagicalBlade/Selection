@@ -59,6 +59,10 @@ namespace Selection
                     command = 1;
                     break;
                 case 6:
+                    result = "Выбрать оформление";
+                    command = 1;
+                    break;
+                case 7:
                     command = -1;
                     itemType = 8; // "ENDMENU"
                     break;
@@ -911,11 +915,6 @@ namespace Selection
                     objectDictionary["Контуры"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrContour]);
                     objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrContour]);
                 }
-                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrDrawText] != null)
-                {
-                    objectDictionary["Текст"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrDrawText]);
-                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrDrawText]);
-                }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrEllipse] != null)
                 {
                     objectDictionary["Элипсы"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrEllipse]);
@@ -1004,6 +1003,11 @@ namespace Selection
                     objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRegularPolygon]);
                 }
                 //ISymbols2DContainer
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrDrawText] != null)
+                {
+                    objectDictionary["Текст"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrDrawText]);
+                    objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrDrawText]);
+                }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrADimension] != null)
                 {
                     objectDictionary["Угловые размеры"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrADimension]);
@@ -1237,7 +1241,9 @@ namespace Selection
             activeDocumentAPI5.ksUndoContainer(false);
         }
 
-
+        /// <summary>
+        /// Выбрать только геометрию
+        /// </summary>
         private void SelectTypeGraphic()
         {
             IKompasDocument2D kompasDocument2D = (IKompasDocument2D)application.ActiveDocument;
@@ -1404,6 +1410,300 @@ namespace Selection
             application.MessageBoxEx("Элементы выделены", "Сообщение", 64);
         }
 
+        /// <summary>
+        /// Выбрать только оформление
+        /// </summary>
+        private void SelectTypeDimension()
+        {
+            IKompasDocument2D kompasDocument2D = (IKompasDocument2D)application.ActiveDocument;
+            ksDocument2D activeDocumentAPI5 = kompas.ActiveDocument2D();
+            IKompasDocument2D1 kompasDocument2D1 = (IKompasDocument2D1)kompasDocument2D;
+            ISelectionManager selectionManager = kompasDocument2D1.SelectionManager;
+            dynamic selected = selectionManager.SelectedObjects;
+            activeDocumentAPI5.ksUndoContainer(true);
+            if (selected is object) return;
+            if (selected is object[])
+            {
+                foreach (IDrawingObject item in selected)
+                {
+                    switch (item.DrawingObjectType)
+                    {
+                        case DrawingObjectTypeEnum.ksDrDrawText:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrLDimension:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrADimension:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrDDimension:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrRDimension:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrRBreakDimension:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrRough:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrBase:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrWPointer:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrCut:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrLeader:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrPosLeader:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrBrandLeader:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrMarkerLeader:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrChangeLeader:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrTolerance:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrTable:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrLBreakDimension:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrOrdinateDimension:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrCentreMarker:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrArcDimension:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrRaster:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrRemoteElement:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrAxisLine:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrOLEObject:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrUnitNumber:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrBrace:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrMarkOnLeader:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrMarkOnLine:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrMarkInsideForm:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrWaveLine:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrStraightAxis:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrBrokenLine:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrCircleAxis:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrArcAxis:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrCutUnitMarking:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrUnitMarking:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrMultiTextLeader:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrExternalView:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrBuildingCutLine:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrConditionCrossing:
+                            break;
+                        case DrawingObjectTypeEnum.ksReportTable:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrCircularCentres:
+                            break;
+                        case DrawingObjectTypeEnum.ksDrLinearCentres:
+                            break;
+                        default:
+                            selectionManager.Unselect(item);
+                            break;
+                    }
+                }
+            }
+            else if (selected == null)
+            {
+                IViewsAndLayersManager viewsAndLayersManager = kompasDocument2D.ViewsAndLayersManager;
+                IViews views = viewsAndLayersManager.Views;
+                IView view = views.ActiveView;
+                IDrawingContainer drawingContainer = (IDrawingContainer)view;
+
+                #region Выделяем
+                //ISymbols2DContainer
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrDrawText] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrDrawText]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrADimension] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrADimension]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrArcDimension] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrArcDimension]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksReportTable] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksReportTable]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrAxisLine] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrAxisLine]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBase] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBase]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLBreakDimension] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLBreakDimension]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRBreakDimension] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRBreakDimension]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBrokenLine] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBrokenLine]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCentreMarker] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCentreMarker]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCircularCentres] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCircularCentres]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrConditionCrossing] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrConditionCrossing]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCut] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCut]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrDDimension] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrDDimension]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrTable] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrTable]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrOrdinateDimension] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrOrdinateDimension]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLeader] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLeader]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrPosLeader] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrPosLeader]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBrandLeader] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBrandLeader]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkerLeader] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkerLeader]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrChangeLeader] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrChangeLeader]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLDimension] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLDimension]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLinearCentres] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLinearCentres]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRDimension] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRDimension]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRemoteElement] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRemoteElement]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRough] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRough]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrTolerance] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrTolerance]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrWPointer] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrWPointer]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrWaveLine] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrWaveLine]);
+                }
+                //IBuildingContainer
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBrace] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBrace]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrStraightAxis] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrStraightAxis]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCircleAxis] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCircleAxis]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrArcAxis] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrArcAxis]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBuildingCutLine] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBuildingCutLine]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCutUnitMarking] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrCutUnitMarking]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkOnLeader] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkOnLeader]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkOnLine] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkOnLine]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkInsideForm] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMarkInsideForm]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMultiTextLeader] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMultiTextLeader]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrUnitMarking] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrUnitMarking]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrUnitNumber] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrUnitNumber]);
+                }
+                #endregion
+
+            }
+
+            activeDocumentAPI5.ksUndoContainer(false);
+            application.MessageBoxEx("Элементы выделены", "Сообщение", 64);
+        }
+
         #endregion
 
         // Головная функция библиотеки
@@ -1420,6 +1720,7 @@ namespace Selection
                 case 3: SelecetTypeLine(); break;
                 case 4: SelectTypeObjectCommand(); break;
                 case 5: SelectTypeGraphic(); break;
+                case 6: SelectTypeDimension(); break;
             }
         }
         /*
