@@ -73,7 +73,7 @@ namespace Selection
         private void DestroyMacroElements()
         {
             ksDocument2D document2DAPI5 = kompas.ActiveDocument2D();
-            document2DAPI5.ksEnableUndo(true);
+            document2DAPI5.ksUndoContainer(true);
             IKompasDocument2D kompasDocument2D = (IKompasDocument2D)activeDocument;
             IKompasDocument2D1 kompasDocument2D1 = (IKompasDocument2D1)activeDocument;
             ISelectionManager selectionManager = kompasDocument2D1.SelectionManager;
@@ -84,7 +84,35 @@ namespace Selection
                 {
                     foreach (IKompasAPIObject kompasobject in selectdynamic)
                     {
-                        if (kompasobject.Type == Kompas6Constants.KompasAPIObjectTypeEnum.ksObjectMacroObject)
+                        if (kompasobject.Type == KompasAPIObjectTypeEnum.ksObjectInsertionFragment)
+                        {
+                            document2DAPI5.ksDestroyObjects(kompasobject.Reference);
+                        }
+                        if (kompasobject.Type == KompasAPIObjectTypeEnum.ksObjectMacroObject)
+                        {
+                            document2DAPI5.ksDestroyObjects(kompasobject.Reference);
+                        }
+                        if (kompasobject.Type == KompasAPIObjectTypeEnum.ksObjectDrawingContour)
+                        {
+                            document2DAPI5.ksDestroyObjects(kompasobject.Reference);
+                        }
+                        if (kompasobject.Type == KompasAPIObjectTypeEnum.ksObjectEquidistant)
+                        {
+                            document2DAPI5.ksDestroyObjects(kompasobject.Reference);
+                        }
+                        if (kompasobject.Type == KompasAPIObjectTypeEnum.ksObjectMultiline)
+                        {
+                            document2DAPI5.ksDestroyObjects(kompasobject.Reference);
+                        }
+                        if (kompasobject.Type == KompasAPIObjectTypeEnum.ksObjectPolyLines2D)
+                        {
+                            document2DAPI5.ksDestroyObjects(kompasobject.Reference);
+                        }
+                        if (kompasobject.Type == KompasAPIObjectTypeEnum.ksObjectRectangle)
+                        {
+                            document2DAPI5.ksDestroyObjects(kompasobject.Reference);
+                        }
+                        if (kompasobject.Type == KompasAPIObjectTypeEnum.ksObjectRegularPolygon)
                         {
                             document2DAPI5.ksDestroyObjects(kompasobject.Reference);
                         }
@@ -92,7 +120,38 @@ namespace Selection
                 }
                 else
                 {
-                    document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
+                    if (selectdynamic.Type == KompasAPIObjectTypeEnum.ksObjectInsertionFragment)
+                    {
+                        document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
+                    }
+                    if (selectdynamic.Type == KompasAPIObjectTypeEnum.ksObjectMacroObject)
+                    {
+                        document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
+                    }
+                    if (selectdynamic.Type == KompasAPIObjectTypeEnum.ksObjectDrawingContour)
+                    {
+                        document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
+                    }
+                    if (selectdynamic.Type == KompasAPIObjectTypeEnum.ksObjectEquidistant)
+                    {
+                        document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
+                    }
+                    if (selectdynamic.Type == KompasAPIObjectTypeEnum.ksObjectMultiline)
+                    {
+                        document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
+                    }
+                    if (selectdynamic.Type == KompasAPIObjectTypeEnum.ksObjectPolyLines2D)
+                    {
+                        document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
+                    }
+                    if (selectdynamic.Type == KompasAPIObjectTypeEnum.ksObjectRectangle)
+                    {
+                        document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
+                    }
+                    if (selectdynamic.Type == KompasAPIObjectTypeEnum.ksObjectRegularPolygon)
+                    {
+                        document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
+                    }
                 }
             }
             else
@@ -102,6 +161,15 @@ namespace Selection
                 IView view = views.ActiveView;
                 IDrawingContainer drawingContainer = (IDrawingContainer)view;
                 IMacroObjects macroObjects = drawingContainer.MacroObjects;
+                InsertionObjects insertionObjects = drawingContainer.InsertionObjects;
+                foreach (IInsertionObject insertionObject in insertionObjects)
+                {
+                    IInsertionFragment insertionFragment = (IInsertionFragment) insertionObject;
+                    if (insertionFragment != null)
+                    {
+                        document2DAPI5.ksDestroyObjects(insertionFragment.Reference);
+                    }
+                }
                 while (macroObjects.Count != 0)
                 {
                     foreach (IMacroObject macroObject in macroObjects)
@@ -110,8 +178,33 @@ namespace Selection
                     }
                     macroObjects = drawingContainer.MacroObjects;
                 }
+
+                foreach (IDrawingContour item in drawingContainer.DrawingContours)
+                {
+                    document2DAPI5.ksDestroyObjects(item.Reference);
+                }
+                foreach (IEquidistant item in drawingContainer.Equidistants)
+                {
+                    document2DAPI5.ksDestroyObjects(item.Reference);
+                }
+                foreach (IMultiline item in drawingContainer.Multilines)
+                {
+                    document2DAPI5.ksDestroyObjects(item.Reference);
+                }
+                foreach (IPolyLines2D item in drawingContainer.PolyLines2D)
+                {
+                    document2DAPI5.ksDestroyObjects(item.Reference);
+                }
+                foreach (IRectangle item in drawingContainer.Rectangles)
+                {
+                    document2DAPI5.ksDestroyObjects(item.Reference);
+                }
+                foreach (IRegularPolygon item in drawingContainer.RegularPolygons)
+                {
+                    document2DAPI5.ksDestroyObjects(item.Reference);
+                }
             }
-            document2DAPI5.ksEnableUndo(false);
+            document2DAPI5.ksUndoContainer(false);
         }
 
         /// <summary>
@@ -119,8 +212,9 @@ namespace Selection
         /// </summary>
         private void SelecetTypeLine()
         {
-            IStylesManager stylesManager = (IStylesManager)application;
-            IStyles styles = stylesManager.CurvesStyles;
+            IStylesManager stylesManagerApp = (IStylesManager)application;
+            //IStylesManager stylesManagerADoc = (IStylesManager)activeDocument;
+            IStyles styles = stylesManagerApp.CurvesStyles;
             W.TypeObject curveStyle = new W.TypeObject();
             string[] selected_lb = new string[styles.Count + 1];
             selected_lb[0] = "Выбрать всё";
@@ -155,7 +249,7 @@ namespace Selection
         }
 
         /// <summary>
-        /// Выбор лини по указаному типу
+        /// Выбор лини по указаному стилю
         /// </summary>
         /// <param name="typeLine"></param>
         private void Select(int[] typeLine)
@@ -452,6 +546,7 @@ namespace Selection
                 { "Фрагменты видов другого чертежа",  new List<object>()},
                 { "Прямые",  new List<object>()},
                 { "Отрезки",  new List<object>()},
+                { "Вставной фрагмент",  new List<object>()},
                 { "Макроэлементы",  new List<object>()},
                 { "Мультилинии",  new List<object>()},
                 { "Nurbs сплайны",  new List<object>()},
@@ -607,8 +702,13 @@ namespace Selection
                             objectDictionary["Контуры"].Add(item);
                             objectDictionary["Геометрия"].Add(item);
                             break;
+                        case DrawingObjectTypeEnum.ksDrFragment:
+                            objectDictionary["Вставной фрагмент"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
+                            break;
                         case DrawingObjectTypeEnum.ksDrMacro:
                             objectDictionary["Макроэлементы"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrLine:
                             objectDictionary["Прямые"].Add(item);
@@ -745,6 +845,7 @@ namespace Selection
                             break;
                         case DrawingObjectTypeEnum.ksReportTable:
                             objectDictionary["Ассоциативные таблицы отчетов"].Add(item);
+                            objectDictionary["Оформление"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrNurbsByPoints:
                             objectDictionary["Nurbs сплайны"].Add(item);
@@ -847,7 +948,13 @@ namespace Selection
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMacro] != null)
                 {
+                    objectDictionary["Вставной фрагмент"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrFragment]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrFragment]);
+                }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMacro] != null)
+                {
                     objectDictionary["Макроэлементы"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMacro]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMacro]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMultiLine] != null)
                 {
