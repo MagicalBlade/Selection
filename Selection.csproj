@@ -87,6 +87,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Kompas dll\Kompas6API5.dll" />
+    <Content Include="Kompas dll\Kompas6Constants.dll" />
+    <Content Include="Kompas dll\Kompas6Constants3D.dll" />
+    <Content Include="Kompas dll\KompasAPI7.dll" />
     <Content Include="Selection.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
