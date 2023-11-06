@@ -949,7 +949,7 @@ namespace Selection
                     objectDictionary["Отрезки"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLineSeg]);
                     objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLineSeg]);
                 }
-                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMacro] != null)
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrFragment] != null)
                 {
                     objectDictionary["Вставной фрагмент"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrFragment]);
                     objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrFragment]);
@@ -1252,7 +1252,6 @@ namespace Selection
             ISelectionManager selectionManager = kompasDocument2D1.SelectionManager;
             dynamic selected = selectionManager.SelectedObjects;
             activeDocumentAPI5.ksUndoContainer(true);
-            if (selected is object) return;
             if (selected is object[])
             {
                 foreach (IDrawingObject item in selected)
@@ -1366,7 +1365,7 @@ namespace Selection
                 {
                     selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrLineSeg]);
                 }
-                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrMacro] != null)
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrFragment] != null)
                 {
                     selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrFragment]);
                 }
@@ -1421,7 +1420,6 @@ namespace Selection
             ISelectionManager selectionManager = kompasDocument2D1.SelectionManager;
             dynamic selected = selectionManager.SelectedObjects;
             activeDocumentAPI5.ksUndoContainer(true);
-            if (selected is object) return;
             if (selected is object[])
             {
                 foreach (IDrawingObject item in selected)
