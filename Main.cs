@@ -125,41 +125,43 @@ namespace Selection
                             document2DAPI5.ksDestroyObjects(kompasobject.Reference);
                         }
                     }
+                    application.MessageBoxEx("Элементы разрушены", "Сообщение", 64);
                 }
                 else
                 {
-                    if (selectdynamic.Type == KompasAPIObjectTypeEnum.ksObjectInsertionFragment)
+                    if (selectdynamic.Type == (int)KompasAPIObjectTypeEnum.ksObjectInsertionFragment)
                     {
                         document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
                     }
-                    if (selectdynamic.Type == KompasAPIObjectTypeEnum.ksObjectMacroObject)
+                    if (selectdynamic.Type == (int)KompasAPIObjectTypeEnum.ksObjectMacroObject)
                     {
                         document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
                     }
-                    if (selectdynamic.Type == KompasAPIObjectTypeEnum.ksObjectDrawingContour)
+                    if (selectdynamic.Type == (int)KompasAPIObjectTypeEnum.ksObjectDrawingContour)
                     {
                         document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
                     }
-                    if (selectdynamic.Type == KompasAPIObjectTypeEnum.ksObjectEquidistant)
+                    if (selectdynamic.Type == (int)KompasAPIObjectTypeEnum.ksObjectEquidistant)
                     {
                         document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
                     }
-                    if (selectdynamic.Type == KompasAPIObjectTypeEnum.ksObjectMultiline)
+                    if (selectdynamic.Type == (int)KompasAPIObjectTypeEnum.ksObjectMultiline)
                     {
                         document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
                     }
-                    if (selectdynamic.Type == KompasAPIObjectTypeEnum.ksObjectPolyLines2D)
+                    if (selectdynamic.Type == (int)KompasAPIObjectTypeEnum.ksObjectPolyLines2D)
                     {
                         document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
                     }
-                    if (selectdynamic.Type == KompasAPIObjectTypeEnum.ksObjectRectangle)
+                    if (selectdynamic.Type == (int)KompasAPIObjectTypeEnum.ksObjectRectangle)
                     {
                         document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
                     }
-                    if (selectdynamic.Type == KompasAPIObjectTypeEnum.ksObjectRegularPolygon)
+                    if (selectdynamic.Type == (int)KompasAPIObjectTypeEnum.ksObjectRegularPolygon)
                     {
                         document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
                     }
+                    application.MessageBoxEx("Элементы разрушены", "Сообщение", 64);
                 }
             }
             else
@@ -211,8 +213,10 @@ namespace Selection
                 {
                     document2DAPI5.ksDestroyObjects(item.Reference);
                 }
+                application.MessageBoxEx("Элементы разрушены", "Сообщение", 64);
             }
             document2DAPI5.ksUndoContainer(false);
+
         }
 
         /// <summary>
