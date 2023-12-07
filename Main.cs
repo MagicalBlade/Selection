@@ -201,7 +201,7 @@ namespace Selection
                 {
                     document2DAPI5.ksDestroyObjects(item.Reference);
                 }
-                foreach (IPolyLines2D item in drawingContainer.PolyLines2D)
+                foreach (IPolyLine2D item in drawingContainer.PolyLines2D)
                 {
                     document2DAPI5.ksDestroyObjects(item.Reference);
                 }
