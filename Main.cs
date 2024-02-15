@@ -271,6 +271,7 @@ namespace Selection
             ksDocument2D ksDocument2D = kompas.ActiveDocument2D();
             ISelectionManager selectionManager = kompasDocument2D1.SelectionManager;
             dynamic selectdynamic = selectionManager.SelectedObjects;
+            ksDocument2D.ksUndoContainer(true);
             if (selectdynamic is object[])
             {
                 object[] array = selectdynamic;
@@ -527,7 +528,6 @@ namespace Selection
             }
 
             #endregion
-            ksDocument2D.ksUndoContainer(true);
 
             selectionManager.Select(selectobjects.ToArray());
 
@@ -1706,6 +1706,294 @@ namespace Selection
             application.MessageBoxEx("Элементы выделены", "Сообщение", 64);
         }
 
+        /// <summary>
+        /// Выбрать основную линию и обозначение маркировки
+        /// </summary>
+        private void SelectMainTypeLineMarkLeader()
+        {
+            List<object> selectobjects = new List<object>();
+            IKompasDocument2D1 kompasDocument2D1 = (IKompasDocument2D1)activeDocument;
+            ksDocument2D ksDocument2D = kompas.ActiveDocument2D();
+            ISelectionManager selectionManager = kompasDocument2D1.SelectionManager;
+            dynamic selectdynamic = selectionManager.SelectedObjects;
+            ksDocument2D.ksUndoContainer(true);
+            if (selectdynamic is object[])
+            {
+                object[] array = selectdynamic;
+                foreach (IKompasAPIObject kompasobject in array)
+                {
+                    switch (kompasobject.Type)
+                    {
+                        case Kompas6Constants.KompasAPIObjectTypeEnum.ksObjectArc:
+                            {
+                                IArc temp = (IArc)kompasobject;
+                                if (temp.Style != 1)
+                                {
+                                    selectionManager.Unselect(temp);
+                                }
+                                break;
+                            }
+                        case Kompas6Constants.KompasAPIObjectTypeEnum.ksObjectBeziers:
+                            {
+                                IBezier temp = (IBezier)kompasobject;
+                                if (temp.Style != 1)
+                                {
+                                    selectionManager.Unselect(temp);
+                                }
+                                break;
+                            }
+                        case Kompas6Constants.KompasAPIObjectTypeEnum.ksObjectCircle:
+                            {
+                                ICircle temp = (ICircle)kompasobject;
+                                if (temp.Style != 1)
+                                {
+                                    selectionManager.Unselect(temp);
+                                }
+                                break;
+                            }
+                        case Kompas6Constants.KompasAPIObjectTypeEnum.ksObjectConicCurve:
+                            {
+                                IConicCurve temp = (IConicCurve)kompasobject;
+                                if (temp.Style != 1)
+                                {
+                                    selectionManager.Unselect(temp);
+                                }
+                                break;
+                            }
+                        case Kompas6Constants.KompasAPIObjectTypeEnum.ksObjectDrawingContour:
+                            {
+                                IDrawingContour temp = (IDrawingContour)kompasobject;
+                                if (temp.Style != 1)
+                                {
+                                    selectionManager.Unselect(temp);
+                                }
+                                break;
+                            }
+                        case Kompas6Constants.KompasAPIObjectTypeEnum.ksObjectEllipse:
+                            {
+                                IEllipse temp = (IEllipse)kompasobject;
+                                if (temp.Style != 1)
+                                {
+                                    selectionManager.Unselect(temp);
+                                }
+                                break;
+                            }
+                        case Kompas6Constants.KompasAPIObjectTypeEnum.ksObjectEllipseArc:
+                            {
+                                IEllipseArc temp = (IEllipseArc)kompasobject;
+                                if (temp.Style != 1)
+                                {
+                                    selectionManager.Unselect(temp);
+                                }
+                                break;
+                            }
+                        case Kompas6Constants.KompasAPIObjectTypeEnum.ksObjectEquidistant:
+                            {
+                                IEquidistant temp = (IEquidistant)kompasobject;
+                                if (temp.Style != 1)
+                                {
+                                    selectionManager.Unselect(temp);
+                                }
+                                break;
+                            }
+                        case Kompas6Constants.KompasAPIObjectTypeEnum.ksObjectLineSegment:
+                            {
+                                ILineSegment temp = (ILineSegment)kompasobject;
+                                if (temp.Style != 1)
+                                {
+                                    selectionManager.Unselect(temp);
+                                }
+                                break;
+                            }
+                        case Kompas6Constants.KompasAPIObjectTypeEnum.ksObjectNurbs:
+                            {
+                                INurbs temp = (INurbs)kompasobject;
+                                if (temp.Style != 1)
+                                {
+                                    selectionManager.Unselect(temp);
+                                }
+                                break;
+                            }
+                        case Kompas6Constants.KompasAPIObjectTypeEnum.ksObjectPolyLine2D:
+                            {
+                                IPolyLine2D temp = (IPolyLine2D)kompasobject;
+                                if (temp.Style != 1)
+                                {
+                                    selectionManager.Unselect(temp);
+                                }
+                                break;
+                            }
+                        case Kompas6Constants.KompasAPIObjectTypeEnum.ksObjectRectangle:
+                            {
+                                IRectangle temp = (IRectangle)kompasobject;
+                                if (temp.Style != 1)
+                                {
+                                    selectionManager.Unselect(temp);
+                                }
+                                break;
+                            }
+                        case Kompas6Constants.KompasAPIObjectTypeEnum.ksObjectRegularPolygon:
+                            {
+                                IRegularPolygon temp = (IRegularPolygon)kompasobject;
+                                if (temp.Style != 1)
+                                {
+                                    selectionManager.Unselect(temp);
+                                }
+                                break;
+                            }
+                        case Kompas6Constants.KompasAPIObjectTypeEnum.ksObjectMarkLeader: //Не снимает выделение если это обозначение маркировки
+                            {
+                                break;
+                            }
+                        default:
+                            {
+                                selectionManager.Unselect(kompasobject);
+                                break;
+                            }
+                    }
+                }
+                return;
+            }
+
+            IKompasDocument2D kompasDocument2D = (IKompasDocument2D)activeDocument;
+            IViewsAndLayersManager viewsAndLayersManager = kompasDocument2D.ViewsAndLayersManager;
+            IViews views = viewsAndLayersManager.Views;
+            IView view = views.ActiveView;
+            IDrawingContainer drawingContainer = (IDrawingContainer)view;
+            ISymbols2DContainer symbols2DContainer = (ISymbols2DContainer)view;
+
+            #region Проверка графических элементов на тип линии
+
+            IArcs arcs = drawingContainer.Arcs;
+            foreach (IArc arc in arcs)
+            {
+                if (arc.Style==1)
+                {
+                    selectobjects.Add(arc);
+                }
+            }
+            IBeziers beziers = drawingContainer.Beziers;
+            foreach (IBezier bezier in beziers)
+            {
+                if (bezier.Style==1)
+                {
+                    selectobjects.Add(bezier);
+                }
+            }
+            ICircles circles = drawingContainer.Circles;
+            foreach (ICircle circle in circles)
+            {
+                if (circle.Style==1)
+                {
+                    selectobjects.Add(circle);
+                }
+            }
+            IConicCurves conicCurves = drawingContainer.ConicCurves;
+            foreach (IConicCurve conicCurve in conicCurves)
+            {
+                if (conicCurve.Style==1)
+                {
+                    selectobjects.Add(conicCurve);
+                }
+            }
+            IDrawingContours drawingContours = drawingContainer.DrawingContours;
+            foreach (IDrawingContour drawingContour in drawingContours)
+            {
+                if (drawingContour.Style==1)
+                {
+                    selectobjects.Add(drawingContour);
+                }
+            }
+            IEllipses ellipses = drawingContainer.Ellipses;
+            foreach (IEllipse ellipse in ellipses)
+            {
+                if (ellipse.Style==1)
+                {
+                    selectobjects.Add(ellipse);
+                }
+            }
+            IEllipseArcs ellipseNurbses = drawingContainer.EllipseArcs;
+            foreach (IEllipseArc ellipseNurbse in ellipseNurbses)
+            {
+                if (ellipseNurbse.Style==1)
+                {
+                    selectobjects.Add(ellipseNurbse);
+                }
+            }
+            IEquidistants equidistants = drawingContainer.Equidistants;
+            foreach (IEquidistant equidistant in equidistants)
+            {
+                if (equidistant.Style==1)
+                {
+                    selectobjects.Add(equidistant);
+                }
+            }
+            ILineSegments lineSegments = drawingContainer.LineSegments;
+            foreach (ILineSegment lineSegment in lineSegments)
+            {
+                if (lineSegment.Style==1)
+                {
+                    selectobjects.Add(lineSegment);
+                }
+            }
+            INurbses Nurbses = drawingContainer.Nurbses;
+            foreach (INurbs nurbse in Nurbses)
+            {
+                if (nurbse.Style==1)
+                {
+                    selectobjects.Add(nurbse);
+                }
+            }
+            INurbses NurbsesPoint = drawingContainer.NurbsesByPoints;
+            foreach (INurbs nurbse in NurbsesPoint)
+            {
+                if (nurbse.Style==1)
+                {
+                    selectobjects.Add(nurbse);
+                }
+            }
+            IPolyLines2D polyLines2Ds = drawingContainer.PolyLines2D;
+            foreach (IPolyLine2D polyLines2D in polyLines2Ds)
+            {
+                if (polyLines2D.Style==1)
+                {
+                    selectobjects.Add(polyLines2D);
+                }
+            }
+            IRectangles rectangles = drawingContainer.Rectangles;
+            foreach (IRectangle rectangle in rectangles)
+            {
+                if (rectangle.Style==1)
+                {
+                    selectobjects.Add(rectangle);
+                }
+            }
+            IRegularPolygons regularPolygons = drawingContainer.RegularPolygons;
+            foreach (IRegularPolygon regularPolygon in regularPolygons)
+            {
+                if (regularPolygon.Style==1)
+                {
+                    selectobjects.Add(regularPolygon);
+                }
+            }
+
+            #endregion
+
+            #region Добавление в выбор обозначения маркировки
+            foreach (var item in symbols2DContainer.Leaders)
+            {
+                if (item is IMarkLeader markLeader)
+                {
+                    selectobjects.Add(markLeader);
+                }
+            } 
+            #endregion
+
+            selectionManager.Select(selectobjects.ToArray());
+
+            ksDocument2D.ksUndoContainer(false);
+        }
+
         #endregion
 
         // Головная функция библиотеки
@@ -1723,6 +2011,7 @@ namespace Selection
                 case 4: SelectTypeObjectCommand(); break;
                 case 5: SelectTypeGraphic(); break;
                 case 6: SelectTypeDimension(); break;
+                case 7: SelectMainTypeLineMarkLeader(); break;
             }
         }
         /*
