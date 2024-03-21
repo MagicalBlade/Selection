@@ -11,14 +11,16 @@ using System.Windows.Forms;
 using W = Selection.Windows;
 using Selection.Classes;
 using System.Runtime.InteropServices.ComTypes;
+using System.Diagnostics;
+using System.IO;
 
 namespace Selection
 {
     public class Main
     {
-        KompasObject kompas;
-        IApplication application;
-        IKompasDocument activeDocument;
+        KompasObject Kompas;
+        IApplication Application;
+        IKompasDocument ActiveDocument;
 
 
 
@@ -80,10 +82,10 @@ namespace Selection
         /// </summary>
         private void DestroyMacroElements()
         {
-            ksDocument2D document2DAPI5 = kompas.ActiveDocument2D();
+            ksDocument2D document2DAPI5 = Kompas.ActiveDocument2D();
             document2DAPI5.ksUndoContainer(true);
-            IKompasDocument2D kompasDocument2D = (IKompasDocument2D)activeDocument;
-            IKompasDocument2D1 kompasDocument2D1 = (IKompasDocument2D1)activeDocument;
+            IKompasDocument2D kompasDocument2D = (IKompasDocument2D)ActiveDocument;
+            IKompasDocument2D1 kompasDocument2D1 = (IKompasDocument2D1)ActiveDocument;
             ISelectionManager selectionManager = kompasDocument2D1.SelectionManager;
             dynamic selectdynamic = selectionManager.SelectedObjects;
             if (selectdynamic != null)
@@ -125,7 +127,7 @@ namespace Selection
                             document2DAPI5.ksDestroyObjects(kompasobject.Reference);
                         }
                     }
-                    application.MessageBoxEx("Элементы разрушены", "Сообщение", 64);
+                    Application.MessageBoxEx("Элементы разрушены", "Сообщение", 64);
                 }
                 else
                 {
@@ -161,7 +163,7 @@ namespace Selection
                     {
                         document2DAPI5.ksDestroyObjects(selectdynamic.Reference);
                     }
-                    application.MessageBoxEx("Элементы разрушены", "Сообщение", 64);
+                    Application.MessageBoxEx("Элементы разрушены", "Сообщение", 64);
                 }
             }
             else
@@ -213,7 +215,7 @@ namespace Selection
                 {
                     document2DAPI5.ksDestroyObjects(item.Reference);
                 }
-                application.MessageBoxEx("Элементы разрушены", "Сообщение", 64);
+                Application.MessageBoxEx("Элементы разрушены", "Сообщение", 64);
             }
             document2DAPI5.ksUndoContainer(false);
 
@@ -224,7 +226,7 @@ namespace Selection
         /// </summary>
         private void SelecetTypeLine()
         {
-            IStylesManager stylesManagerApp = (IStylesManager)application;
+            IStylesManager stylesManagerApp = (IStylesManager)Application;
             //IStylesManager stylesManagerADoc = (IStylesManager)activeDocument;
             IStyles styles = stylesManagerApp.CurvesStyles;
             W.TypeObject curveStyle = new W.TypeObject();
@@ -267,8 +269,8 @@ namespace Selection
         private void Select(int[] typeLine)
         {
             List<IDrawingObject> selectobjects = new List<IDrawingObject>();
-            IKompasDocument2D1 kompasDocument2D1 = (IKompasDocument2D1)activeDocument;
-            ksDocument2D ksDocument2D = kompas.ActiveDocument2D();
+            IKompasDocument2D1 kompasDocument2D1 = (IKompasDocument2D1)ActiveDocument;
+            ksDocument2D ksDocument2D = Kompas.ActiveDocument2D();
             ISelectionManager selectionManager = kompasDocument2D1.SelectionManager;
             dynamic selectdynamic = selectionManager.SelectedObjects;
             ksDocument2D.ksUndoContainer(true);
@@ -406,7 +408,7 @@ namespace Selection
                 return;
             }
 
-            IKompasDocument2D kompasDocument2D = (IKompasDocument2D)activeDocument;
+            IKompasDocument2D kompasDocument2D = (IKompasDocument2D)ActiveDocument;
             IViewsAndLayersManager viewsAndLayersManager = kompasDocument2D.ViewsAndLayersManager;
             IViews views = viewsAndLayersManager.Views;
             IView view = views.ActiveView;
@@ -607,8 +609,8 @@ namespace Selection
                 { "Обозначения узлов",  new List<object>()},
                 { "Номера узлов",  new List<object>()}
             };
-            IKompasDocument2D kompasDocument2D = (IKompasDocument2D)application.ActiveDocument;
-            ksDocument2D activeDocumentAPI5 = kompas.ActiveDocument2D();
+            IKompasDocument2D kompasDocument2D = (IKompasDocument2D)Application.ActiveDocument;
+            ksDocument2D activeDocumentAPI5 = Kompas.ActiveDocument2D();
             IKompasDocument2D1 kompasDocument2D1 = (IKompasDocument2D1)kompasDocument2D;
             ISelectionManager selectionManager = kompasDocument2D1.SelectionManager;
             dynamic selected = selectionManager.SelectedObjects;
@@ -1250,8 +1252,8 @@ namespace Selection
         /// </summary>
         private void SelectTypeGraphic()
         {
-            IKompasDocument2D kompasDocument2D = (IKompasDocument2D)application.ActiveDocument;
-            ksDocument2D activeDocumentAPI5 = kompas.ActiveDocument2D();
+            IKompasDocument2D kompasDocument2D = (IKompasDocument2D)Application.ActiveDocument;
+            ksDocument2D activeDocumentAPI5 = Kompas.ActiveDocument2D();
             IKompasDocument2D1 kompasDocument2D1 = (IKompasDocument2D1)kompasDocument2D;
             ISelectionManager selectionManager = kompasDocument2D1.SelectionManager;
             dynamic selected = selectionManager.SelectedObjects;
@@ -1410,7 +1412,7 @@ namespace Selection
             }
 
             activeDocumentAPI5.ksUndoContainer(false);
-            application.MessageBoxEx("Элементы выделены", "Сообщение", 64);
+            Application.MessageBoxEx("Элементы выделены", "Сообщение", 64);
         }
 
         /// <summary>
@@ -1418,8 +1420,8 @@ namespace Selection
         /// </summary>
         private void SelectTypeDimension()
         {
-            IKompasDocument2D kompasDocument2D = (IKompasDocument2D)application.ActiveDocument;
-            ksDocument2D activeDocumentAPI5 = kompas.ActiveDocument2D();
+            IKompasDocument2D kompasDocument2D = (IKompasDocument2D)Application.ActiveDocument;
+            ksDocument2D activeDocumentAPI5 = Kompas.ActiveDocument2D();
             IKompasDocument2D1 kompasDocument2D1 = (IKompasDocument2D1)kompasDocument2D;
             ISelectionManager selectionManager = kompasDocument2D1.SelectionManager;
             dynamic selected = selectionManager.SelectedObjects;
@@ -1703,7 +1705,7 @@ namespace Selection
             }
 
             activeDocumentAPI5.ksUndoContainer(false);
-            application.MessageBoxEx("Элементы выделены", "Сообщение", 64);
+            Application.MessageBoxEx("Элементы выделены", "Сообщение", 64);
         }
 
         /// <summary>
@@ -1712,8 +1714,8 @@ namespace Selection
         private void SelectMainTypeLineMarkLeader()
         {
             List<object> selectobjects = new List<object>();
-            IKompasDocument2D1 kompasDocument2D1 = (IKompasDocument2D1)activeDocument;
-            ksDocument2D ksDocument2D = kompas.ActiveDocument2D();
+            IKompasDocument2D1 kompasDocument2D1 = (IKompasDocument2D1)ActiveDocument;
+            ksDocument2D ksDocument2D = Kompas.ActiveDocument2D();
             ISelectionManager selectionManager = kompasDocument2D1.SelectionManager;
             dynamic selectdynamic = selectionManager.SelectedObjects;
             ksDocument2D.ksUndoContainer(true);
@@ -1855,7 +1857,7 @@ namespace Selection
                 return;
             }
 
-            IKompasDocument2D kompasDocument2D = (IKompasDocument2D)activeDocument;
+            IKompasDocument2D kompasDocument2D = (IKompasDocument2D)ActiveDocument;
             IViewsAndLayersManager viewsAndLayersManager = kompasDocument2D.ViewsAndLayersManager;
             IViews views = viewsAndLayersManager.Views;
             IView view = views.ActiveView;
@@ -1994,14 +1996,31 @@ namespace Selection
             ksDocument2D.ksUndoContainer(false);
         }
 
+
+        /// <summary>
+        /// Открытие файла помощи
+        /// </summary>
+        private void OpenHelp()
+        {
+            ILibraryManager libraryManager = Application.LibraryManager;
+            string path = $"{Path.GetDirectoryName(libraryManager.CurrentLibrary.PathName)}\\Help\\index.html"; //Получить путь к папке библиотеки
+            if (File.Exists(path))
+            {
+                Process.Start(path);
+            }
+            else
+            {
+                Application.MessageBoxEx("Файл помощи не найден. Обратитесь к разработчику", "Ошибка", 64);
+            }
+        }
         #endregion
 
         // Головная функция библиотеки
         public void ExternalRunCommand([In] short command, [In] short mode, [In, MarshalAs(UnmanagedType.IDispatch)] object kompas_)
         {
-            kompas = (KompasObject)kompas_;
-            application = (IApplication)kompas.ksGetApplication7();
-            activeDocument = application.ActiveDocument;
+            Kompas = (KompasObject)kompas_;
+            Application = (IApplication)Kompas.ksGetApplication7();
+            ActiveDocument = Application.ActiveDocument;
             //Вызываем команды
             switch (command)
             {
@@ -2012,6 +2031,10 @@ namespace Selection
                 case 5: SelectTypeGraphic(); break;
                 case 6: SelectTypeDimension(); break;
                 case 7: SelectMainTypeLineMarkLeader(); break;
+
+
+
+                case 999: OpenHelp(); break;
             }
         }
         /*
