@@ -174,20 +174,22 @@ namespace Selection
                 IDrawingContainer drawingContainer = (IDrawingContainer)view;
                 IMacroObjects macroObjects = drawingContainer.MacroObjects;
                 InsertionObjects insertionObjects = drawingContainer.InsertionObjects;
-                foreach (IInsertionObject insertionObject in insertionObjects)
-                {
-                    IInsertionFragment insertionFragment = (IInsertionFragment) insertionObject;
-                    if (insertionFragment != null)
-                    {
-                        document2DAPI5.ksDestroyObjects(insertionFragment.Reference);
-                    }
-                }
+                
                 while (macroObjects.Count != 0)
                 {
                     foreach (IMacroObject macroObject in macroObjects)
                     {
                         document2DAPI5.ksDestroyObjects(macroObject.Reference);
                     }
+                    foreach (IInsertionObject insertionObject in insertionObjects)
+                    {
+                        IInsertionFragment insertionFragment = (IInsertionFragment)insertionObject;
+                        if (insertionFragment != null)
+                        {
+                            document2DAPI5.ksDestroyObjects(insertionFragment.Reference);
+                        }
+                    }
+                    insertionObjects = drawingContainer.InsertionObjects;
                     macroObjects = drawingContainer.MacroObjects;
                 }
 
