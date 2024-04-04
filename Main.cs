@@ -229,7 +229,6 @@ namespace Selection
         private void SelecetTypeLine()
         {
             IStylesManager stylesManagerApp = (IStylesManager)Application;
-            //IStylesManager stylesManagerADoc = (IStylesManager)activeDocument;
             IStyles styles = stylesManagerApp.CurvesStyles;
             W.TypeObject curveStyle = new W.TypeObject();
             string[] selected_lb = new string[styles.Count + 1];
@@ -262,6 +261,7 @@ namespace Selection
             {
                 Select(selectedType);
             }
+            Application.MessageBoxEx("Элементы выделены", "Готово", 64);
         }
 
         /// <summary>
@@ -1247,6 +1247,7 @@ namespace Selection
                 selectionManager.Select(objectDictionary[item.ToString()].ToArray());
             }
             activeDocumentAPI5.ksUndoContainer(false);
+            Application.MessageBoxEx("Элементы выделены", "Готово", 64);
         }
 
         /// <summary>
@@ -1710,6 +1711,52 @@ namespace Selection
             Application.MessageBoxEx("Элементы выделены", "Сообщение", 64);
         }
 
+
+        /// <summary>
+        /// Выбрать по указанному типу элемента
+        /// </summary>
+        private void SelectObjectByTipe(DrawingObjectTypeEnum kompasTypeObject)
+        {
+            List<object> selectObjects = new List<object>();
+            IKompasDocument2D kompasDocument2D = (IKompasDocument2D)Application.ActiveDocument;
+            ksDocument2D activeDocumentAPI5 = Kompas.ActiveDocument2D();
+            IKompasDocument2D1 kompasDocument2D1 = (IKompasDocument2D1)kompasDocument2D;
+            ISelectionManager selectionManager = kompasDocument2D1.SelectionManager;
+            dynamic selected = selectionManager.SelectedObjects;
+            if (selected is object[])
+            {
+                foreach (IDrawingObject item in selected)
+                {
+                    if (item.DrawingObjectType == kompasTypeObject)
+                    {
+                        selectObjects.Add(item);
+                    }
+                }
+            }
+            else if (selected == null)
+            {
+                IViewsAndLayersManager viewsAndLayersManager = kompasDocument2D.ViewsAndLayersManager;
+                IViews views = viewsAndLayersManager.Views;
+                IView view = views.ActiveView;
+                IDrawingContainer drawingContainer = (IDrawingContainer)view;
+                if (drawingContainer.Objects[kompasTypeObject] != null)
+                {
+                    selectObjects.Add(drawingContainer.Objects[kompasTypeObject]);
+                }
+            }
+            else
+            {
+                Application.MessageBoxEx("Выбран один элемент", "Ошибка", 64);
+                return;
+            }
+            activeDocumentAPI5.ksUndoContainer(true);
+            selectionManager.UnselectAll();
+            selectionManager.Select(selectObjects.ToArray());
+            activeDocumentAPI5.ksUndoContainer(false);
+            Application.MessageBoxEx("Элементы выделены", "Готово", 64);
+        }
+
+
         /// <summary>
         /// Выбрать основную линию и обозначение маркировки
         /// </summary>
@@ -2032,7 +2079,8 @@ namespace Selection
                 case 4: SelectTypeObjectCommand(); break;
                 case 5: SelectTypeGraphic(); break;
                 case 6: SelectTypeDimension(); break;
-                case 7: SelectMainTypeLineMarkLeader(); break;
+                case 7: SelectObjectByTipe(DrawingObjectTypeEnum.ksDrMacro); break; //Выбор макроэлемента
+                case 8: SelectMainTypeLineMarkLeader(); break;
 
 
 
