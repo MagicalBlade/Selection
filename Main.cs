@@ -1220,7 +1220,10 @@ namespace Selection
                 #endregion
 
             }
-            TypeObject typeObject = new TypeObject();
+            TypeObject typeObject = new TypeObject
+            {
+                Text = "Тип элемента"
+            };
             foreach (string key in objectDictionary.Keys)
             {
                 if (objectDictionary[key].Count != 0)
