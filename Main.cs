@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using W = Selection.Windows;
-using Selection.Classes;
 using System.Runtime.InteropServices.ComTypes;
 using System.Diagnostics;
 using System.IO;
@@ -82,6 +81,7 @@ namespace Selection
         /// </summary>
         private void DestroyMacroElements()
         {
+            if (Kompas.ksYesNo("Разрушить макроэлементы в активном виде?") != 1) return;
             ksDocument2D document2DAPI5 = Kompas.ActiveDocument2D();
             document2DAPI5.ksUndoContainer(true);
             IKompasDocument2D kompasDocument2D = (IKompasDocument2D)ActiveDocument;
@@ -2090,27 +2090,7 @@ namespace Selection
                 case 999: OpenHelp(); break;
             }
         }
-        /*
-        public bool LibInterfaceNotifyEntry(object application1)
-        {
-            bool result = true;
-
-            KompasEvents aplEvent = new KompasEvents(((KompasObject)application1));
-            IConnectionPointContainer cpContainer = application1 as IConnectionPointContainer;
-            IConnectionPoint m_ConnPt;
-            int m_Cookie;
-            if (cpContainer != null)
-            {
-                cpContainer.FindConnectionPoint(typeof(ksKompasObjectNotify).GUID, out m_ConnPt);
-                if (m_ConnPt != null)
-                {
-                    m_ConnPt.Advise(aplEvent, out m_Cookie);
-                }
-            }
-            return result;
-        }
-        */
-            public object ExternalGetResourceModule()
+        public object ExternalGetResourceModule()
         {
             return Assembly.GetExecutingAssembly().Location;
         }
