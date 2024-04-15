@@ -81,7 +81,7 @@ namespace Selection
         /// </summary>
         private void DestroyMacroElements()
         {
-            if (Kompas.ksYesNo("Разрушить макроэлементы в активном виде?") != 1) return;
+            //if (Kompas.ksYesNo("Разрушить макроэлементы в активном виде?") != 1) return;
             ksDocument2D document2DAPI5 = Kompas.ActiveDocument2D();
             document2DAPI5.ksUndoContainer(true);
             IKompasDocument2D kompasDocument2D = (IKompasDocument2D)ActiveDocument;
@@ -2070,25 +2070,45 @@ namespace Selection
         // Головная функция библиотеки
         public void ExternalRunCommand([In] short command, [In] short mode, [In, MarshalAs(UnmanagedType.IDispatch)] object kompas_)
         {
-            Kompas = (KompasObject)kompas_;
-            Application = (IApplication)Kompas.ksGetApplication7();
-            ActiveDocument = Application.ActiveDocument;
-            //Вызываем команды
-            switch (command)
+
+            try
             {
-                case 1: Select(new int[] {1}); break; //Выбор линии с типом "Основная"
-                case 2: DestroyMacroElements(); break;
-                case 3: SelecetTypeLine(); break;
-                case 4: SelectTypeObjectCommand(); break;
-                case 5: SelectTypeGraphic(); break;
-                case 6: SelectTypeDimension(); break;
-                case 7: SelectObjectByTipe(DrawingObjectTypeEnum.ksDrMacro); break; //Выбор макроэлемента
-                case 8: SelectMainTypeLineMarkLeader(); break;
+                if (kompas_ == null)
+                {
+                    MessageBox.Show("Не найден Компас");
+                    return;
+                }
+                Kompas = (KompasObject)kompas_;
+                Application = (IApplication)Kompas.ksGetApplication7();
+                ActiveDocument = Application.ActiveDocument;
+                if (ActiveDocument == null || (ActiveDocument.DocumentType != DocumentTypeEnum.ksDocumentDrawing
+                    && ActiveDocument.DocumentType != DocumentTypeEnum.ksDocumentFragment))
+                {
+                    MessageBox.Show("Документ не активен либо не является чертежом/фрагментом. Возможно был перечитан другой чертеж. Переключитесь на любой другой чертеж и вернитесь назад, должно заработать.");
+                    return;
+                }
+                //Вызываем команды
+                switch (command)
+                {
+                    case 1: Select(new int[] { 1 }); break; //Выбор линии с типом "Основная"
+                    case 2: DestroyMacroElements(); break;
+                    case 3: SelecetTypeLine(); break;
+                    case 4: SelectTypeObjectCommand(); break;
+                    case 5: SelectTypeGraphic(); break;
+                    case 6: SelectTypeDimension(); break;
+                    case 7: SelectObjectByTipe(DrawingObjectTypeEnum.ksDrMacro); break; //Выбор макроэлемента
+                    case 8: SelectMainTypeLineMarkLeader(); break;
 
 
 
-                case 999: OpenHelp(); break;
+                    case 999: OpenHelp(); break;
+                }
             }
+            catch (Exception e)
+            {
+                MessageBox.Show($"{e}");
+            }
+
         }
         public object ExternalGetResourceModule()
         {
