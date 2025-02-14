@@ -2417,8 +2417,9 @@ namespace Selection
                 Kompas = (KompasObject)kompas_;
                 Application = (IApplication)Kompas.ksGetApplication7();
                 ActiveDocument = Application.ActiveDocument;
-                if (ActiveDocument == null || (ActiveDocument.DocumentType != DocumentTypeEnum.ksDocumentDrawing
-                    && ActiveDocument.DocumentType != DocumentTypeEnum.ksDocumentFragment))
+                IKompasDocument activeDocument = Application.ActiveDocument;
+                if (activeDocument == null || (activeDocument.DocumentType != DocumentTypeEnum.ksDocumentDrawing
+                    && activeDocument.DocumentType != DocumentTypeEnum.ksDocumentFragment))
                 {
                     MessageBox.Show("Документ не активен либо не является чертежом/фрагментом. Возможно был перечитан другой чертеж. Переключитесь на любой другой чертеж и вернитесь назад, должно заработать.");
                     return;
