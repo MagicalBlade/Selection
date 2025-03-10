@@ -789,6 +789,7 @@ namespace Selection
                         case DrawingObjectTypeEnum.ksDrAxisLine:
                             objectDictionary["Осевые линии"].Add(item);
                             objectDictionary["Оформление"].Add(item);
+                            objectDictionary["Геометрия"].Add(item);
                             break;
                         case DrawingObjectTypeEnum.ksDrOLEObject:
                             objectDictionary["OLE объекты"].Add(item);
@@ -1036,6 +1037,7 @@ namespace Selection
                 {
                     objectDictionary["Осевые линии"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrAxisLine]);
                     objectDictionary["Оформление"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrAxisLine]);
+                    objectDictionary["Геометрия"].AddRange(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrAxisLine]);
                 }
                 if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrBase] != null)
                 {
@@ -1315,6 +1317,8 @@ namespace Selection
                             break;
                         case DrawingObjectTypeEnum.ksDrConicCurve:
                             break;
+                        case DrawingObjectTypeEnum.ksDrAxisLine:
+                            break;
                         default:
                             selectionManager.Unselect(item);
                             break;
@@ -1414,8 +1418,11 @@ namespace Selection
                 {
                     selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrRegularPolygon]);
                 }
+                if (drawingContainer.Objects[DrawingObjectTypeEnum.ksDrAxisLine] != null)
+                {
+                    selectionManager.Select(drawingContainer.Objects[DrawingObjectTypeEnum.ksDrAxisLine]);
+                }
                 #endregion
-
             }
 
             activeDocumentAPI5.ksUndoContainer(false);
