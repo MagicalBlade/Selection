@@ -2393,6 +2393,45 @@ namespace Selection
                 Application.MessageBoxEx("Геометрия с данным стилем линии не найдены.", "Готово", 64);
             }
         }
+        /// <summary>
+        /// Выделить графику - объединить в макроэлемент - выделить этот макроэлемент
+        /// </summary>
+        private void SelectTypeGraphicMakeMacro()
+        {
+            ksDocument2D activeDocumentAPI5 = Kompas.ActiveDocument2D();
+            activeDocumentAPI5.ksUndoContainer(true);
+            IKompasDocument2D kompasDocument2D = (IKompasDocument2D)ActiveDocument;
+            IKompasDocument2D1 kompasDocument2D1 = (IKompasDocument2D1)kompasDocument2D;
+            ISelectionManager selectionManager = kompasDocument2D1.SelectionManager;
+            //Выделяем графику
+            SelectTypeGraphic();
+            dynamic selected = selectionManager.SelectedObjects;
+            IViewsAndLayersManager viewsAndLayersManager = kompasDocument2D.ViewsAndLayersManager;
+            IViews views = viewsAndLayersManager.Views;
+            IView activeView = views.ActiveView;
+            IDrawingContainer drawingContainer = (IDrawingContainer)activeView;
+            IMacroObjects macroObjects = drawingContainer.MacroObjects;
+            IMacroObject macroObject = macroObjects.Add();
+            #region Фикс проблемы API компас.
+            //Для того что бы макроэлемент создался надо добавить какой либо элемент в IDrawingContainer этого макроэлемента.
+            //И обязательно вызвать методо Update() этого макроэлемента!
+            IDrawingContainer drawingContainerMO = (IDrawingContainer)macroObject;
+            IPoints points = drawingContainerMO.Points;
+            IPoint point = points.Add();
+            point.X = 0;
+            point.Y = 0; 
+            point.Update();
+            macroObject.Update();
+            #endregion
+            macroObject.AddObjects(selected);
+            //Удаляем временную точку
+            point.Delete();
+            macroObject.Update();
+            selectionManager.UnselectAll();
+            selectionManager.Select(macroObject);
+            activeDocumentAPI5.ksUndoContainer(false);
+        }
+
 
         /// <summary>
         /// Открытие файла помощи
@@ -2472,6 +2511,7 @@ namespace Selection
                     case 7: SelectObjectByTipe(DrawingObjectTypeEnum.ksDrMacro); break; //Выбор макроэлемента
                     case 8: SelectMainTypeLineMarkLeader(); break;
                     case 9: SelectSimilarStyleLine(); break;
+                    case 10: SelectTypeGraphicMakeMacro(); break;
 
 
 
