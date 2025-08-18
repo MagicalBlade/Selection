@@ -2406,10 +2406,47 @@ namespace Selection
             //Выделяем графику
             SelectTypeGraphic();
             dynamic selected = selectionManager.SelectedObjects;
-            IViewsAndLayersManager viewsAndLayersManager = kompasDocument2D.ViewsAndLayersManager;
-            IViews views = viewsAndLayersManager.Views;
-            IView activeView = views.ActiveView;
-            IDrawingContainer drawingContainer = (IDrawingContainer)activeView;
+            IView view = null;
+            if (selected == null)
+            {
+                return;
+            }
+            if (selected is object[] selectedObjects)
+            {
+                if (selectedObjects[0] is IDrawingObject drawingObject)
+                {
+                    view = drawingObject.Parent as IView;
+                }
+                foreach (object obj in selectedObjects)
+                {
+                    if (obj is IDrawingObject drawingObject1)
+                    {
+                        IView view1 = drawingObject1.Parent as IView;
+                        if (view != view1)
+                        {
+                            Application.MessageBoxEx("Графические элементы находятся в разных видах. Объединить в макроэлемент нельзя.", "Ошибка", 64);
+                            return;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (selected is IDrawingObject drawingObject && drawingObject.DrawingObjectType != DrawingObjectTypeEnum.ksDrMacro)
+                {
+                    view = drawingObject.Parent as IView;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            if (view == null)
+            {
+                Application.MessageBoxEx("view == null. Обратитесь к разработчику", "Ошибка", 64);
+                return;
+            }
+            IDrawingContainer drawingContainer = (IDrawingContainer)view;
             IMacroObjects macroObjects = drawingContainer.MacroObjects;
             IMacroObject macroObject = macroObjects.Add();
             #region Фикс проблемы API компас.
